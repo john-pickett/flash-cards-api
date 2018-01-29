@@ -1,6 +1,13 @@
 var mongoose = require('mongoose');
 
 mongoose.promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/FlashCards');
+
+//mongo URI: mongodb://heroku_tjj5w6j6:iu3gjoabmt6psk5502dbg305l3@ds117878.mlab.com:17878/heroku_tjj5w6j6
+mongoose.connect('mongodb://heroku_tjj5w6j6:iu3gjoabmt6psk5502dbg305l3@ds117878.mlab.com:17878/heroku_tjj5w6j6').then(() => {
+    console.log('Connected successfully');
+}, (err) => {
+    console.log(`Error: ${err}`);
+});
+
 
 module.exports = {mongoose};

@@ -5,6 +5,7 @@ var {mongoose} = require('./db/mongoose');
 var {User} = require('./models/user');
 
 var app = express();
+const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
@@ -35,6 +36,6 @@ app.get('/users', (req, res, next) => {
     res.status(400).send(e);
 });
 
-app.listen(3000, () => {
-    console.log('listening on port 3000');
+app.listen(port, () => {
+    console.log(`started up at ${port}`);
 });

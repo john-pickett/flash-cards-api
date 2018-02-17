@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var {mongoose} = require('./db/mongoose');
 var {User} = require('./models/user');
 var {Lesson} = require('./models/lesson');
+var {Score} = require('./models/score');
 
 var app = express();
 const port = process.env.PORT || 3000;
@@ -57,6 +58,29 @@ app.post('/lessons', (req, res, next) => {
 app.get('/lessons', (req, res, next) => {
     Lesson.find().then((lessons) => {
         res.send({lessons});
+    })
+}, (e) => {
+    res.status(400).send(e);
+});
+
+app.post('/scores', (req, res, next) => {
+    console.log('score posted')
+    var score = new Score({
+        name: req.body.name,
+        score: req.body.score
+    });
+    score.save().then((doc) => {
+        res.send(doc);
+    }, (e) => {
+        res.status(400).send(e);
+    })
+}, (e) => {
+    res.status(400).send(e);
+});
+
+app.get('/scores', (req, res, next) => {
+    Score.find().then((scores) => {
+        res.send({scores});
     })
 }, (e) => {
     res.status(400).send(e);

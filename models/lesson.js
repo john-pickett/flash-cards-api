@@ -7,8 +7,8 @@ var Lesson = mongoose.model('Lesson', {
         trim: true,
         minlength: 1
     },
+    cards: [String],
     answers: [String],
-    guesses: [String],
     length: {
         type: Number,
         required: true,

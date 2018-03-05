@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var {ObjectID} = require('mongodb');
 
 var {mongoose} = require('./db/mongoose');
 var {User} = require('./models/user');
@@ -43,8 +44,10 @@ app.get('/users', (req, res, next) => {
 app.post('/lessons', (req, res, next) => {
     var lesson = new Lesson({
         title: req.body.title,
+        cards: req.body.cards,
         answers: req.body.answers,
-        guesses: req.body.guesses
+        length: req.body.length,
+        timer: req.body.timer
     });
     lesson.save().then((doc) => {
         res.send(doc);
@@ -61,6 +64,24 @@ app.get('/lessons', (req, res, next) => {
     })
 }, (e) => {
     res.status(400).send(e);
+});
+
+app.get('/lessons/:id', (req, res) => {
+    var id = req.params.id;
+    
+    if (!ObjectID.isValid(id)) {
+        return res.status(404).send();
+    }
+
+   Lesson.findById(id).then((lesson) => {
+    if (!lesson) {
+        return res.status(404).send();
+    }
+
+    res.send({lesson});
+   }).catch((e) => {
+    res.status(400).send();
+   })
 });
 
 app.post('/scores', (req, res, next) => {

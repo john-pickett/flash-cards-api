@@ -20,7 +20,8 @@ var Lesson = mongoose.model('Lesson', {
         required: true,
         trim: true,
         minlength: 1
-    }
+    },
+    high_scores: []
 });
 
 module.exports = {Lesson};

@@ -91,6 +91,26 @@ app.post('/lessons', (req, res, next) => {
     res.status(400).send(e);
 });
 
+// only allows for updates to high scores currently
+app.patch('/lessons/:id', (req, res) => {
+    console.log('patching lesson ' + JSON.stringify(req.body) + " " + req.params.id);
+    var id = req.params.id;
+    var body = _.pick(req.body, ['high_scores']);
+
+    if (!ObjectID.isValid(id)) {
+        return res.status(404).send();
+    }
+
+    Lesson.findByIdAndUpdate(id, {$set: body}, {new: true}).then( (doc) => {
+        if (!doc) {
+            return res.status(400).send();
+        }
+        res.send({doc});
+    }).catch((e) => {
+        res.status(400).send();
+    })
+})
+
 // Scores Routes
 app.get('/scores', (req, res, next) => {
     Score.find().then((scores) => {
@@ -114,27 +134,6 @@ app.post('/scores', (req, res, next) => {
 }, (e) => {
     res.status(400).send(e);
 });
-
-
-// only allows for updates to high scores currently
-app.patch('/lessons/:id', (req, res) => {
-    console.log('patching lesson ' + JSON.stringify(req.body) + " " + req.params.id);
-    var id = req.params.id;
-    var body = _.pick(req.body, ['high_scores']);
-
-    if (!ObjectID.isValid(id)) {
-        return res.status(404).send();
-    }
-
-    Lesson.findByIdAndUpdate(id, {$set: body}, {new: true}).then( (doc) => {
-        if (!doc) {
-            return res.status(400).send();
-        }
-        res.send({doc});
-    }).catch((e) => {
-        res.status(400).send();
-    })
-})
 
 app.listen(port, () => {
     console.log(`started up at ${port}`);

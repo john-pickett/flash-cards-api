@@ -138,3 +138,26 @@ app.post('/scores', (req, res, next) => {
 app.listen(port, () => {
     console.log(`started up at ${port}`);
 });
+
+// Deck Routes
+app.get('/decks', (req, res) => {
+    Deck.find().then((decks) => {
+        res.send({decks});
+    })
+}, (e) => {
+    res.status(400).send(e);
+});
+
+app.post('/decks', (req, res) => {
+    var deck = new Deck({
+        title: req.body.title,
+        cards: req.body.cards,
+        scores: req.body.scores
+    });
+    deck.save().then((doc) => {
+        res.send(doc);
+        console.log('new deck saved')
+    })
+}, (e) => {
+    res.status(400).send(e);
+});

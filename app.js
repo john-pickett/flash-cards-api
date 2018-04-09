@@ -7,6 +7,7 @@ var {mongoose} = require('./db/mongoose');
 var {User} = require('./models/user');
 var {Lesson} = require('./models/lesson');
 var {Score} = require('./models/score');
+var {Deck} = require('./models/deck');
 
 var app = express();
 const port = process.env.PORT || 3001;

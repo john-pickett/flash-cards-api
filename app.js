@@ -146,8 +146,8 @@ app.get('/decks', (req, res) => {
 // secretAccessKey: process.env.S3_SECRET
 
     const unCreds = {
-        appId: '1',
-        appSecret: '2'
+        appId: process.env.UN_AppID,
+        appSecret: process.env.UN_Secret
     }
 
 

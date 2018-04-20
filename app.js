@@ -142,8 +142,20 @@ app.listen(port, () => {
 
 // Deck Routes
 app.get('/decks', (req, res) => {
+// accessKeyId: process.env.S3_KEY,
+// secretAccessKey: process.env.S3_SECRET
+
+    const unCreds = {
+        appId: '1',
+        appSecret: '2'
+    }
+
+
     Deck.find().then((decks) => {
-        res.send({decks});
+        res.send({
+            decks,
+            unCreds
+        });
     })
 }, (e) => {
     res.status(400).send(e);
